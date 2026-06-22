@@ -1,0 +1,30 @@
+{
+  "building": "V-huset, LTH",
+  "ics_sources": [
+    {
+      "name": "V-huset – övningssalar och datorsalar",
+      "url": "https://cloud.timeedit.net/lu/web/lth1/ri6Q784X056001QQ27Z7525Z50y76552268441Y4755XXX8671512225X5518197XX80825X017X651716779XX7228756650851X48820600151X166781816b15uXX1X7865Q66588X500Q0Z6Ze65n101.ics"
+    }
+  ],
+  "rooms": {
+    "V:N1": { "type": "övningssal", "capacity": 36, "floor": 2 },
+    "V:N2": { "type": "övningssal", "capacity": 24, "floor": 2 },
+    "V:O1": { "type": "övningssal", "capacity": 24, "floor": 2 },
+    "V:O2": { "type": "övningssal", "capacity": 36, "floor": 2 },
+    "V:P1": { "type": "övningssal", "capacity": 24, "floor": 2 },
+    "V:P2": { "type": "övningssal", "capacity": 36, "floor": 2 },
+    "V:Q1": { "type": "övningssal", "capacity": 24, "floor": 3 },
+    "V:R1": { "type": "övningssal", "capacity": 24, "floor": 3 },
+    "V:R2": { "type": "övningssal", "capacity": 36, "floor": 3 },
+    "V:S1": { "type": "övningssal", "capacity": 24, "floor": 3 },
+    "V:S2": { "type": "övningssal", "capacity": 36, "floor": 3 },
+    "V:Brandsalen": { "type": "övningssal", "capacity": 24, "floor": 3 },
+    "V:Dator11": { "type": "datorsal", "capacity": 24, "floor": 1 },
+    "V:Dator12": { "type": "datorsal", "capacity": 24, "floor": 1 },
+    "V:Dator21": { "type": "datorsal", "capacity": 32, "floor": 2 },
+    "V:Dator22": { "type": "datorsal", "capacity": 32, "floor": 2 },
+    "V:Dator23": { "type": "datorsal", "capacity": 32, "floor": 2 },
+    "V:Dator24": { "type": "datorsal", "capacity": 32, "floor": 2 },
+    "V:Dator25": { "type": "datorsal", "capacity": 24, "floor": 2 }
+  }
+}

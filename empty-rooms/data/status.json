@@ -1,0 +1,6 @@
+{
+  "generated_at": null,
+  "building": "V-huset, LTH",
+  "rooms": {},
+  "_note": "Denna fil genereras av .github/workflows/update-status.yml. Kör workflow:n (Actions-fliken -> Uppdatera salstatus -> Run workflow) för att fylla den med riktig data."
+}
