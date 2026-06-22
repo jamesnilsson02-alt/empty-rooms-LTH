@@ -378,7 +378,7 @@ function isSoon(iso) {
 
 async function loadStatus() {
   try {
-    const res = await fetch('../data/status.json?_=' + Date.now());
+    const res = await fetch('https://raw.githubusercontent.com/jamesnilsson02-alt/empty-rooms-LTH/main/empty-rooms/data/status.json?_=' + Date.now());
     if (!res.ok) throw new Error('status.json hittades inte');
     const data = await res.json();
 
