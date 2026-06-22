@@ -1,6 +1,196 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-06-22T15:41:47.134210+02:00",
   "building": "V-huset, LTH",
-  "rooms": {},
-  "_note": "Denna fil genereras av .github/workflows/update-status.yml. Kör workflow:n (Actions-fliken -> Uppdatera salstatus -> Run workflow) för att fylla den med riktig data."
+  "rooms": {
+    "V:N1": {
+      "type": "övningssal",
+      "capacity": 36,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:N2": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:O1": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:O2": {
+      "type": "övningssal",
+      "capacity": 36,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:P1": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:P2": {
+      "type": "övningssal",
+      "capacity": 36,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Q1": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:R1": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:R2": {
+      "type": "övningssal",
+      "capacity": 36,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:S1": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:S2": {
+      "type": "övningssal",
+      "capacity": 36,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Brandsalen": {
+      "type": "övningssal",
+      "capacity": 24,
+      "floor": 3,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator11": {
+      "type": "datorsal",
+      "capacity": 24,
+      "floor": 1,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator12": {
+      "type": "datorsal",
+      "capacity": 24,
+      "floor": 1,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator21": {
+      "type": "datorsal",
+      "capacity": 32,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator22": {
+      "type": "datorsal",
+      "capacity": 32,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator23": {
+      "type": "datorsal",
+      "capacity": 32,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator24": {
+      "type": "datorsal",
+      "capacity": 32,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    },
+    "V:Dator25": {
+      "type": "datorsal",
+      "capacity": 24,
+      "floor": 2,
+      "busy_now": false,
+      "current_until": null,
+      "next_event_start": null,
+      "next_event_end": null,
+      "label": null
+    }
+  }
 }
