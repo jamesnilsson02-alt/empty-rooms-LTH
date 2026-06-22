@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty Rooms — LTH</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+  :root {
+    --bg: #0e1410;
+    --bg-panel: #161d18;
+    --bg-card: #1b231d;
+    --bg-card-hover: #1f2921;
+    --line: #2a352c;
+    --line-bright: #3d4d3f;
+    --text: #e8ede9;
+    --text-dim: #8a9690;
+    --text-faint: #5a655d;
+    --free: #5fd97e;
+    --free-dim: #2a5c38;
+    --free-glow: rgba(95,217,126,0.15);
+    --busy: #e8634a;
+    --busy-dim: #5c2a1e;
+    --busy-glow: rgba(232,99,74,0.13);
+    --soon: #e8b84a;
+    --soon-glow: rgba(232,184,74,0.13);
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --radius: 2px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding-bottom: 5rem;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--line-bright);
+    background: linear-gradient(180deg, var(--bg-panel) 0%, transparent 100%);
+    padding: 2.5rem 1.5rem 2rem;
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--free);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--free);
+    box-shadow: 0 0 8px var(--free);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 0.6rem;
+  }
+  h1 span { color: var(--text-dim); }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    max-width: 54ch;
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+  }
+
+  .meta-row {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  .meta-row strong { color: var(--text-dim); }
+  .stale-warning { color: var(--soon); }
+
+  /* ── LAYOUT ── */
+  main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 0; }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line-bright);
+  }
+
+  section { margin-bottom: 3rem; }
+
+  /* ── SEKTION 1: TOPPLISTA ── */
+  .top-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .top-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line-bright);
+    border-top: 3px solid var(--free);
+    padding: 1.3rem 1.4rem;
+    position: relative;
+  }
+
+  .top-card-rank {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--free);
+    margin-bottom: 0.5rem;
+  }
+
+  .top-card-name {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+
+  .top-card-duration {
+    font-size: 1rem;
+    color: var(--free);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .top-card-until {
+    font-size: 0.78rem;
+    color: var(--text-faint);
+  }
+
+  .top-card-meta {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .no-free {
+    color: var(--text-faint);
+    font-size: 0.85rem;
+    padding: 1.5rem 0;
+  }
+
+  /* ── SEKTION 2: ALLA SALAR ── */
+  .type-group { margin-bottom: 1.8rem; }
+
+  .type-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.6rem;
+  }
+
+  .room-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .room-row {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--line-bright);
+    padding: 0.65rem 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s, border-left-color 0.15s;
+  }
+  .room-row:hover { background: var(--bg-card-hover); }
+  .room-row.free { border-left-color: var(--free); }
+  .room-row.busy { border-left-color: var(--busy); }
+  .room-row.soon { border-left-color: var(--soon); }
+
+  .room-row-name {
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .room-row-right { text-align: right; }
+
+  .badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+  }
+  .badge.free { background: var(--free-dim); color: var(--free); }
+  .badge.busy { background: var(--busy-dim); color: var(--busy); }
+  .badge.soon { background: rgba(232,184,74,0.15); color: var(--soon); }
+
+  .room-row-sub {
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    margin-top: 0.2rem;
+  }
+
+  /* ── SEKTION 3: TIDSLINJE ── */
+  .timeline-controls {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  select {
+    background: var(--bg-card);
+    border: 1px solid var(--line-bright);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.55rem 0.9rem;
+    appearance: none;
+    cursor: pointer;
+    min-width: 180px;
+  }
+  select:focus { outline: 1px solid var(--free); }
+
+  .timeline-empty {
+    color: var(--text-faint);
+    font-size: 0.82rem;
+    padding: 1rem 0;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .tl-slot {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+
+  .tl-time {
+    color: var(--text-faint);
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .tl-bar {
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+  .tl-bar.free {
+    background: var(--free-dim);
+    color: var(--free);
+  }
+  .tl-bar.busy {
+    background: var(--busy-dim);
+    color: var(--busy);
+  }
+  .tl-bar.now {
+    outline: 1px solid var(--free);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 960px;
+    margin: 3rem auto 0;
+    padding: 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    line-height: 1.7;
+  }
+  footer a { color: var(--text-dim); }
+
+  .loading { color: var(--text-faint); font-size: 0.85rem; padding: 2rem 0; }
+  .error { color: var(--busy); font-size: 0.85rem; padding: 2rem 0; }
+
+  @media (max-width: 600px) {
+    .room-list { grid-template-columns: 1fr 1fr; }
+    .top-grid { grid-template-columns: 1fr; }
+    .tl-slot { grid-template-columns: 90px 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">LTH — V-HUSET</div>
+    <h1>Empty Rooms<span>.</span></h1>
+    <p class="subtitle">
+      Vilka övningssalar och datorsalar är lediga just nu — och hur länge.
+      Hitta bästa sal för ett långpass utan att behöva flytta på dig.
+    </p>
+    <div class="meta-row">
+      <span>Senast uppdaterad: <strong id="updated-at">—</strong></span>
+      <span id="stale-warning" class="stale-warning" style="display:none">
+        ⚠ Kan vara inaktuell — kör workflow:n för färsk status
+      </span>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="loading">Läser in salstatus…</div>
+</main>
+
+<footer>
+  Data från LTH:s publika TimeEdit-schema. Ett rum som visas som ledigt kan
+  ändå vara fysiskt upptaget (särskilt grupprum). Uppdateras manuellt —
+  kolla "senast uppdaterad" ovan.
+  Källkod på <a href="https://github.com/jamesnilsson02-alt/empty-rooms-LTH" target="_blank" rel="noopener">GitHub</a>.
+</footer>
+
+<script>
+const STATUS_URL = 'https://raw.githubusercontent.com/jamesnilsson02-alt/empty-rooms-LTH/main/empty-rooms/data/status.json?_=';
+const DAY_START = 7 * 60;   // 07:00
+const DAY_END   = 20 * 60;  // 20:00
+
+const TYPE_LABELS = { "övningssal": "Övningssalar", "datorsal": "Datorsalar" };
+
+// ── TID-HJÄLPARE ──────────────────────────────────────────────
+function toMin(hhmm) {
+  const [h, m] = hhmm.split(':').map(Number);
+  return h * 60 + m;
+}
+function fromMin(min) {
+  return `${String(Math.floor(min/60)).padStart(2,'0')}:${String(min%60).padStart(2,'0')}`;
+}
+function nowMin() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+
+// ── SALSTATUS JUST NU ─────────────────────────────────────────
+function roomStatus(bookings) {
+  const now = nowMin();
+  const ongoing = bookings.find(b => toMin(b.start) <= now && now < toMin(b.end));
+  if (ongoing) {
+    const next = bookings.find(b => toMin(b.start) >= toMin(ongoing.end));
+    return { state: 'busy', until: ongoing.end, label: ongoing.label,
+             nextStart: next?.start ?? null };
+  }
+  const next = bookings.find(b => toMin(b.start) > now);
+  const isSoon = next && (toMin(next.start) - now) <= 30;
+  return { state: isSoon ? 'soon' : 'free', nextStart: next?.start ?? null,
+           freeUntil: next?.start ?? null };
+}
+
+// ── OPTIMAL SAL (ledig längst) ────────────────────────────────
+function optimalRooms(rooms) {
+  const now = nowMin();
+  const results = [];
+
+  for (const [name, data] of Object.entries(rooms)) {
+    const { state } = roomStatus(data.bookings);
+    if (state === 'busy') continue;
+
+    const nextBook = data.bookings.find(b => toMin(b.start) > now);
+    const freeUntilMin = nextBook ? toMin(nextBook.start) : DAY_END;
+    const freeFor = freeUntilMin - now;
+    if (freeFor <= 0) continue;
+
+    results.push({
+      name,
+      type: data.type,
+      capacity: data.capacity,
+      floor: data.floor,
+      freeFor,
+      freeUntilMin,
+      label: freeUntilMin >= DAY_END ? 'Hela dagen' : `till ${fromMin(freeUntilMin)}`,
+    });
+  }
+
+  return results.sort((a, b) => b.freeFor - a.freeFor);
+}
+
+function fmtDuration(min) {
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if (h === 0) return `${m} min`;
+  if (m === 0) return `${h} h`;
+  return `${h} h ${m} min`;
+}
+
+// ── TIDSLINJE FÖR EN SAL ─────────────────────────────────────
+function buildTimeline(bookings) {
+  const now = nowMin();
+  const slots = [];
+  let cursor = DAY_START;
+
+  const sorted = [...bookings].sort((a,b) => toMin(a.start) - toMin(b.start));
+
+  for (const b of sorted) {
+    const bStart = Math.max(toMin(b.start), DAY_START);
+    const bEnd   = Math.min(toMin(b.end),   DAY_END);
+    if (bEnd <= DAY_START) continue;
+    if (bStart > cursor) {
+      slots.push({ start: cursor, end: bStart, free: true });
+    }
+    if (bEnd > cursor) {
+      slots.push({ start: bStart, end: bEnd, free: false, label: b.label });
+      cursor = bEnd;
+    }
+  }
+  if (cursor < DAY_END) slots.push({ start: cursor, end: DAY_END, free: true });
+
+  return slots.map(s => {
+    const isNow = !s.free
+      ? now >= s.start && now < s.end
+      : now >= s.start && now < s.end;
+    return { ...s, isNow };
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function renderTopSection(rooms) {
+  const ranked = optimalRooms(rooms).slice(0, 5);
+  if (!ranked.length) {
+    return `<div class="no-free">Inga lediga salar just nu.</div>`;
+  }
+  const labels = ['Bästa valet', 'Näst bäst', 'Alternativ', 'Alternativ', 'Alternativ'];
+  return `<div class="top-grid">${ranked.map((r, i) => `
+    <div class="top-card" onclick="selectRoom('${r.name}')">
+      <div class="top-card-rank">${labels[i] || '#' + (i+1)}</div>
+      <div class="top-card-name">${r.name}</div>
+      <div class="top-card-duration">Ledig i ${fmtDuration(r.freeFor)}</div>
+      <div class="top-card-until">${r.label === 'Hela dagen' ? 'Ingen bokning idag' : 'Bokad ' + r.label}</div>
+      <div class="top-card-meta">${r.type === 'övningssal' ? 'Övningssal' : 'Datorsal'} · ${r.capacity} platser · vån ${r.floor}</div>
+    </div>`).join('')}</div>`;
+}
+
+function renderAllSection(rooms) {
+  const byType = {};
+  for (const [name, data] of Object.entries(rooms)) {
+    const t = data.type || 'övrigt';
+    if (!byType[t]) byType[t] = [];
+    byType[t].push([name, data]);
+  }
+
+  return Object.entries(byType).map(([type, list]) => {
+    list.sort((a,b) => a[0].localeCompare(b[0], 'sv'));
+    const rows = list.map(([name, data]) => {
+      const st = roomStatus(data.bookings);
+      let badge, sub;
+      if (st.state === 'busy') {
+        badge = `<span class="badge busy">Upptagen till ${st.until}</span>`;
+        sub = st.nextStart ? `Ledig från ${st.nextStart}` : 'Ingen mer bokning idag';
+      } else if (st.state === 'soon') {
+        badge = `<span class="badge soon">Bokad om &lt;30 min</span>`;
+        sub = `Bokad från ${st.nextStart}`;
+      } else {
+        badge = `<span class="badge free">Ledig</span>`;
+        sub = st.nextStart ? `Bokad från ${st.nextStart}` : 'Ingen bokning idag';
+      }
+      return `
+        <div class="room-row ${st.state}" onclick="selectRoom('${name}')">
+          <div class="room-row-name">${name}</div>
+          <div class="room-row-right">
+            ${badge}
+            <div class="room-row-sub">${sub}</div>
+          </div>
+        </div>`;
+    }).join('');
+
+    return `<div class="type-group">
+      <div class="type-label">${TYPE_LABELS[type] || type}</div>
+      <div class="room-list">${rows}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTimeline(name, data) {
+  const slots = buildTimeline(data.bookings);
+  const now = nowMin();
+  return `<div class="timeline">${slots.map(s => {
+    const cls = s.free ? 'free' : 'busy';
+    const nowMark = now >= s.start && now < s.end ? ' now' : '';
+    const txt = s.free
+      ? (now >= s.start && now < s.end ? '▶ Du är här' : 'Ledig')
+      : s.label;
+    return `<div class="tl-slot">
+      <div class="tl-time">${fromMin(s.start)} – ${fromMin(s.end)}</div>
+      <div class="tl-bar ${cls}${nowMark}">${txt}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── GLOBAL STATE & SELECTROOM ─────────────────────────────────
+let globalRooms = null;
+
+function selectRoom(name) {
+  if (!globalRooms) return;
+  const sel = document.getElementById('room-select');
+  if (sel) sel.value = name;
+  updateTimeline(name);
+  document.getElementById('section-timeline')
+    ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateTimeline(name) {
+  if (!globalRooms || !name) return;
+  const data = globalRooms[name];
+  if (!data) return;
+  const el = document.getElementById('timeline-content');
+  if (el) el.innerHTML = renderTimeline(name, data);
+}
+
+// ── HUVUD-RENDER ─────────────────────────────────────────────
+function renderAll(data) {
+  globalRooms = data.rooms;
+  const rooms = data.rooms;
+
+  const html = `
+    <section>
+      <div class="section-label">Mest optimala salar just nu</div>
+      ${renderTopSection(rooms)}
+    </section>
+
+    <section>
+      <div class="section-label">Alla salar</div>
+      ${renderAllSection(rooms)}
+    </section>
+
+    <section id="section-timeline">
+      <div class="section-label">Kolla en sals dag</div>
+      <div class="timeline-controls">
+        <select id="room-select" onchange="updateTimeline(this.value)">
+          <option value="">Välj sal…</option>
+          ${Object.keys(rooms).sort((a,b) => a.localeCompare(b,'sv'))
+            .map(n => `<option value="${n}">${n}</option>`).join('')}
+        </select>
+      </div>
+      <div id="timeline-content">
+        <div class="timeline-empty">Välj en sal för att se hela dagens schema.</div>
+      </div>
+    </section>
+  `;
+
+  document.getElementById('main').innerHTML = html;
+}
+
+function fmtUpdated(iso) {
+  const d = new Date(iso);
+  const diff = Math.round((Date.now() - d) / 60000);
+  const time = d.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+  const date = d.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
+  const rel = diff < 1 ? '(nyss)' : diff < 60 ? `(${diff} min sedan)` : `(${Math.round(diff/60)} h sedan)`;
+  return { text: `${date}, ${time} ${rel}`, stale: diff > 120 };
+}
+
+async function loadStatus() {
+  try {
+    const res = await fetch(STATUS_URL + Date.now());
+    if (!res.ok) throw new Error('status.json hittades inte');
+    const data = await res.json();
+
+    if (!data.generated_at || !Object.keys(data.rooms || {}).length) {
+      document.getElementById('main').innerHTML =
+        `<div class="error">Inga rumsdata — har workflow:n körts ännu?</div>`;
+      return;
+    }
+
+    const { text, stale } = fmtUpdated(data.generated_at);
+    document.getElementById('updated-at').textContent = text;
+    if (stale) document.getElementById('stale-warning').style.display = 'inline';
+
+    renderAll(data);
+  } catch (err) {
+    document.getElementById('main').innerHTML =
+      `<div class="error">Kunde inte läsa data (${err.message}).</div>`;
+  }
+}
+
+loadStatus();
+setInterval(() => {
+  // Uppdatera badges utan att ladda om hela DOM:en
+  if (globalRooms) renderAll({ generated_at: document.getElementById('updated-at').textContent, rooms: globalRooms });
+}, 60000);
+</script>
+</body>
+</html>
