@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty Rooms — LTH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:          #121212;
+    --bg-elevated: #1a1a1a;
+    --card:        #1e1e1e;
+    --card-hover:  #242424;
+    --border:      #2d2d2d;
+    --border-soft: #262626;
+    --text:        #e0e0e0;
+    --text-dim:    #a0a0a0;
+    --text-faint:  #606060;
+    --free:        #4ade80;
+    --free-bg:     rgba(74,222,128,0.08);
+    --free-border: rgba(74,222,128,0.2);
+    --busy:        #f87171;
+    --busy-bg:     rgba(248,113,113,0.08);
+    --busy-border: rgba(248,113,113,0.2);
+    --soon:        #fbbf24;
+    --soon-bg:     rgba(251,191,36,0.08);
+    --radius:      12px;
+    --radius-sm:   8px;
+    --radius-pill: 20px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 1.5rem 1.8rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header-left h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.15rem;
+  }
+
+  .header-left p {
+    font-size: 0.78rem;
+    color: var(--text-faint);
+  }
+
+  .updated-pill {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 0.35rem 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 0;
+  }
+
+  /* ── SEKTION-RUBRIK ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .section-header .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--free);
+    flex-shrink: 0;
+  }
+
+  section { margin-bottom: 2.5rem; }
+
+  /* ── TOPPLISTA ── */
+  .top-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .top-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    gap: 1rem;
+  }
+
+  .top-card:hover {
+    background: var(--card-hover);
+    border-color: #383838;
+  }
+
+  .top-card.rank-1 {
+    border-color: var(--free-border);
+    background: var(--free-bg);
+  }
+
+  .top-card-left { flex: 1; min-width: 0; }
+
+  .top-card-rank {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.25rem;
+  }
+  .top-card.rank-1 .top-card-rank { color: var(--free); }
+
+  .top-card-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+
+  .top-card-sub {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .top-card-right { text-align: right; flex-shrink: 0; }
+
+  .duration-big {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--free);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .duration-label {
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    margin-top: 0.15rem;
+  }
+
+  /* ── ALLA SALAR ── */
+  .type-group { margin-bottom: 1.2rem; }
+
+  .type-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+    padding-left: 0.1rem;
+  }
+
+  .room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .room-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.12s;
+    gap: 0.5rem;
+  }
+  .room-card:hover { background: var(--card-hover); }
+
+  .room-card-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .room-card-sub {
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    margin-top: 0.15rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge.free { background: var(--free-bg); color: var(--free); border: 1px solid var(--free-border); }
+  .badge.busy { background: var(--busy-bg); color: var(--busy); border: 1px solid var(--busy-border); }
+  .badge.soon { background: var(--soon-bg); color: var(--soon); border: 1px solid rgba(251,191,36,0.2); }
+
+  /* ── TIDSLINJE ── */
+  .timeline-select {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.2rem;
+    appearance: none;
+    cursor: pointer;
+  }
+  .timeline-select:focus { outline: 1px solid var(--free); }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .tl-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .tl-time {
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .tl-bar {
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .tl-bar.free { background: var(--free-bg); color: var(--free); border: 1px solid var(--free-border); }
+  .tl-bar.busy { background: var(--busy-bg); color: var(--busy); border: 1px solid var(--busy-border); }
+  .tl-bar.now  { border-color: var(--free); box-shadow: 0 0 0 1px var(--free-border); }
+
+  .tl-now-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--free);
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .tl-empty {
+    font-size: 0.82rem;
+    color: var(--text-faint);
+    padding: 1rem 0;
+  }
+
+  /* ── SAMMANFATTNING ── */
+  .summary-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .summary-cell {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 1rem;
+    text-align: center;
+  }
+
+  .summary-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .summary-cell.free .summary-num { color: var(--free); }
+  .summary-cell.busy .summary-num { color: var(--busy); }
+
+  .summary-lbl {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-top: 0.4rem;
+  }
+
+  /* ── STATES ── */
+  .loading, .error {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    padding: 3rem 0;
+    text-align: center;
+  }
+  .error { color: var(--busy); }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 720px;
+    margin: 3rem auto 0;
+    padding: 1.5rem 1.5rem 0;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    line-height: 1.7;
+  }
+  footer a { color: var(--text-dim); }
+
+  @media (max-width: 500px) {
+    .room-grid { grid-template-columns: 1fr 1fr; }
+    .summary-row { grid-template-columns: repeat(3,1fr); gap: 0.4rem; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <h1>Empty Rooms</h1>
+      <p>LTH · V-huset</p>
+    </div>
+    <div class="updated-pill" id="updated-pill">Läser in…</div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="loading">Hämtar salstatus…</div>
+</main>
+
+<footer>
+  Data från LTH:s publika TimeEdit-schema. Uppdateras automatiskt varje vardag kl 08:00.
+  Källkod på <a href="https://github.com/jamesnilsson02-alt/empty-rooms-LTH" target="_blank" rel="noopener">GitHub</a>.
+</footer>
+
+<script>
+const STATUS_URL = 'https://raw.githubusercontent.com/jamesnilsson02-alt/empty-rooms-LTH/main/empty-rooms/data/status.json?_=';
+const DAY_START = 7 * 60;
+const DAY_END   = 20 * 60;
+const TYPE_LABELS = { "övningssal": "Övningssalar", "datorsal": "Datorsalar" };
+
+let globalRooms = null;
+
+function toMin(hhmm) {
+  const [h, m] = hhmm.split(':').map(Number);
+  return h * 60 + m;
+}
+function fromMin(m) {
+  return `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+}
+function nowMin() {
+  const d = new Date();
+  return d.getHours() * 60 + d.getMinutes();
+}
+function fmtDuration(min) {
+  const h = Math.floor(min/60), m = min%60;
+  if (h === 0) return `${m} min`;
+  if (m === 0) return `${h} h`;
+  return `${h} h ${m} min`;
+}
+
+function roomStatus(bookings) {
+  const now = nowMin();
+  const ongoing = bookings.find(b => toMin(b.start) <= now && now < toMin(b.end));
+  if (ongoing) {
+    const next = bookings.find(b => toMin(b.start) >= toMin(ongoing.end));
+    return { state: 'busy', until: ongoing.end, label: ongoing.label, nextStart: next?.start ?? null };
+  }
+  const next = bookings.find(b => toMin(b.start) > now);
+  const isSoon = next && (toMin(next.start) - now) <= 30;
+  return { state: isSoon ? 'soon' : 'free', nextStart: next?.start ?? null };
+}
+
+function optimalRooms(rooms) {
+  const now = nowMin();
+  const res = [];
+  for (const [name, data] of Object.entries(rooms)) {
+    const { state } = roomStatus(data.bookings);
+    if (state === 'busy') continue;
+    const next = data.bookings.find(b => toMin(b.start) > now);
+    const freeUntil = next ? toMin(next.start) : DAY_END;
+    const freeFor = freeUntil - now;
+    if (freeFor <= 0) continue;
+    res.push({ name, ...data, freeFor, freeUntil, nextLabel: next ? `Bokad ${next.start}` : 'Ingen bokning idag' });
+  }
+  return res.sort((a,b) => b.freeFor - a.freeFor);
+}
+
+function buildTimeline(bookings) {
+  const slots = [];
+  let cursor = DAY_START;
+  const sorted = [...bookings].sort((a,b) => toMin(a.start)-toMin(b.start));
+  for (const b of sorted) {
+    const s = Math.max(toMin(b.start), DAY_START);
+    const e = Math.min(toMin(b.end), DAY_END);
+    if (e <= DAY_START) continue;
+    if (s > cursor) slots.push({ start: cursor, end: s, free: true });
+    if (e > cursor) { slots.push({ start: s, end: e, free: false, label: b.label }); cursor = e; }
+  }
+  if (cursor < DAY_END) slots.push({ start: cursor, end: DAY_END, free: true });
+  return slots;
+}
+
+function renderTop(rooms) {
+  const ranked = optimalRooms(rooms).slice(0, 5);
+  if (!ranked.length) return `<p style="color:var(--text-faint);font-size:.85rem;padding:1rem 0">Inga lediga salar just nu.</p>`;
+  const rankLabel = ['Bästa valet','Näst bäst','Alternativ','Alternativ','Alternativ'];
+  return `<div class="top-list">${ranked.map((r,i) => `
+    <div class="top-card ${i===0?'rank-1':''}" onclick="selectRoom('${r.name}')">
+      <div class="top-card-left">
+        <div class="top-card-rank">${rankLabel[i]||'#'+(i+1)}</div>
+        <div class="top-card-name">${r.name}</div>
+        <div class="top-card-sub">${r.type==='övningssal'?'Övningssal':'Datorsal'} · ${r.capacity} platser · vån ${r.floor}</div>
+      </div>
+      <div class="top-card-right">
+        <div class="duration-big">${fmtDuration(r.freeFor)}</div>
+        <div class="duration-label">${r.nextLabel}</div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function renderAll(rooms) {
+  const byType = {};
+  for (const [name, data] of Object.entries(rooms)) {
+    const t = data.type || 'övrigt';
+    if (!byType[t]) byType[t] = [];
+    byType[t].push([name, data]);
+  }
+  return Object.entries(byType).map(([type, list]) => {
+    list.sort((a,b)=>a[0].localeCompare(b[0],'sv'));
+    const cards = list.map(([name, data]) => {
+      const st = roomStatus(data.bookings);
+      let badge, sub;
+      if (st.state==='busy') {
+        badge=`<span class="badge busy">Upptagen till ${st.until}</span>`;
+        sub=st.nextStart?`Ledig ${st.nextStart}`:'Ingen mer bokning';
+      } else if (st.state==='soon') {
+        badge=`<span class="badge soon">Bokad om &lt;30 min</span>`;
+        sub=`Bokad ${st.nextStart}`;
+      } else {
+        badge=`<span class="badge free">Ledig</span>`;
+        sub=st.nextStart?`Bokad ${st.nextStart}`:'Ingen bokning idag';
+      }
+      return `<div class="room-card" onclick="selectRoom('${name}')">
+        <div>
+          <div class="room-card-name">${name}</div>
+          <div class="room-card-sub">${sub}</div>
+        </div>
+        ${badge}
+      </div>`;
+    }).join('');
+    return `<div class="type-group">
+      <div class="type-label">${TYPE_LABELS[type]||type}</div>
+      <div class="room-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTimeline(name, data) {
+  if (!data) return '';
+  const now = nowMin();
+  const slots = buildTimeline(data.bookings);
+  return `<div class="timeline">${slots.map(s => {
+    const isNow = now >= s.start && now < s.end;
+    const cls = s.free ? 'free' : 'busy';
+    const txt = s.free
+      ? (isNow ? `<span class="tl-now-dot"></span> Du är här` : 'Ledig')
+      : s.label;
+    return `<div class="tl-row">
+      <div class="tl-time">${fromMin(s.start)} – ${fromMin(s.end)}</div>
+      <div class="tl-bar ${cls}${isNow?' now':''}">${txt}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function updateTimeline(name) {
+  if (!globalRooms || !name) {
+    document.getElementById('tl-content').innerHTML = `<div class="tl-empty">Välj en sal för att se hela dagen.</div>`;
+    return;
+  }
+  document.getElementById('tl-content').innerHTML = renderTimeline(name, globalRooms[name]);
+}
+
+function selectRoom(name) {
+  const sel = document.getElementById('room-select');
+  if (sel) { sel.value = name; updateTimeline(name); }
+  document.getElementById('section-timeline')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderPage(data) {
+  globalRooms = data.rooms;
+  const rooms = data.rooms;
+  const free = Object.values(rooms).filter(r => roomStatus(r.bookings).state !== 'busy').length;
+  const busy = Object.keys(rooms).length - free;
+
+  document.getElementById('main').innerHTML = `
+    <div class="summary-row">
+      <div class="summary-cell free"><div class="summary-num">${free}</div><div class="summary-lbl">Lediga nu</div></div>
+      <div class="summary-cell busy"><div class="summary-num">${busy}</div><div class="summary-lbl">Upptagna</div></div>
+      <div class="summary-cell"><div class="summary-num">${Object.keys(rooms).length}</div><div class="summary-lbl">Totalt</div></div>
+    </div>
+
+    <section>
+      <div class="section-header"><div class="dot"></div><h2>Bäst att välja just nu</h2></div>
+      ${renderTop(rooms)}
+    </section>
+
+    <section>
+      <div class="section-header"><div class="dot" style="background:var(--text-faint)"></div><h2>Alla salar</h2></div>
+      ${renderAll(rooms)}
+    </section>
+
+    <section id="section-timeline">
+      <div class="section-header"><div class="dot" style="background:var(--text-faint)"></div><h2>Kolla en sals dag</h2></div>
+      <select class="timeline-select" id="room-select" onchange="updateTimeline(this.value)">
+        <option value="">Välj sal…</option>
+        ${Object.keys(rooms).sort((a,b)=>a.localeCompare(b,'sv')).map(n=>`<option value="${n}">${n}</option>`).join('')}
+      </select>
+      <div id="tl-content"><div class="tl-empty">Välj en sal för att se hela dagen.</div></div>
+    </section>
+  `;
+}
+
+function fmtUpdated(iso) {
+  const d = new Date(iso);
+  const diff = Math.round((Date.now()-d)/60000);
+  const time = d.toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
+  const rel = diff < 1 ? 'nyss' : diff < 60 ? `${diff} min sedan` : `${Math.round(diff/60)} h sedan`;
+  return `${time} (${rel})`;
+}
+
+async function load() {
+  try {
+    const res = await fetch(STATUS_URL + Date.now());
+    if (!res.ok) throw new Error('Kunde inte hämta status.json');
+    const data = await res.json();
+    if (!data.generated_at || !Object.keys(data.rooms||{}).length) throw new Error('Ingen data — kör workflow:n');
+    document.getElementById('updated-pill').textContent = fmtUpdated(data.generated_at);
+    renderPage(data);
+  } catch(err) {
+    document.getElementById('main').innerHTML = `<div class="error">${err.message}</div>`;
+    document.getElementById('updated-pill').textContent = 'Fel';
+  }
+}
+
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
