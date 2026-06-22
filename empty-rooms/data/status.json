@@ -1,196 +1,121 @@
 {
-  "generated_at": "2026-06-22T16:21:40.181559+02:00",
+  "generated_at": "2026-06-22T20:28:35.002631+02:00",
+  "generated_date": "2026-06-22",
   "building": "V-huset, LTH",
   "rooms": {
     "V:N1": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:N2": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:O1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:O2": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:P1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:P2": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Q1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:R1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:R2": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:S1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:S2": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Brandsalen": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 3,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator11": {
       "type": "datorsal",
       "capacity": 24,
       "floor": 1,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator12": {
       "type": "datorsal",
       "capacity": 24,
       "floor": 1,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator21": {
       "type": "datorsal",
       "capacity": 32,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator22": {
       "type": "datorsal",
       "capacity": 32,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator23": {
       "type": "datorsal",
       "capacity": 32,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator24": {
       "type": "datorsal",
       "capacity": 32,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     },
     "V:Dator25": {
       "type": "datorsal",
       "capacity": 24,
       "floor": 2,
-      "busy_now": false,
-      "current_until": null,
-      "next_event_start": null,
-      "next_event_end": null,
-      "label": null
+      "bookings": []
     }
   }
 }
