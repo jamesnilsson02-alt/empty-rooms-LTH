@@ -1,0 +1,36 @@
+name: Uppdatera salstatus
+
+# Körs ENDAST när du manuellt klickar "Run workflow" på Actions-fliken
+# i GitHub, eller via `gh workflow run update-status.yml` i terminalen.
+# Inget schema, inget som körs i bakgrunden i onödan.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checka ut repot
+        uses: actions/checkout@v4
+
+      - name: Sätt upp Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installera beroenden
+        run: pip install icalendar requests
+
+      - name: Hämta och beräkna salstatus
+        run: python scripts/fetch_status.py
+
+      - name: Committa uppdaterad status
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/status.json
+          git diff --staged --quiet || git commit -m "Uppdatera salstatus $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
