@@ -25,7 +25,7 @@ jobs:
         run: pip install icalendar requests
 
       - name: Hämta och beräkna salstatus
-        run: python scripts/fetch_status.py
+        run: python empty-rooms/scripts/fetch_status.py
 
       - name: Committa uppdaterad status
         run: |
