@@ -1,43 +1,25 @@
 {
-  "generated_at": "2026-08-17T07:31:05.677716+02:00",
-  "generated_date": "2026-08-17",
+  "generated_at": "2026-08-18T07:23:32.312988+02:00",
+  "generated_date": "2026-08-18",
   "building": "V-huset, LTH",
   "rooms": {
     "V:N1": {
       "type": "övningssal",
       "capacity": 36,
       "floor": 2,
-      "bookings": [
-        {
-          "start": "14:00",
-          "end": "19:00",
-          "label": "VBFA06 \nVBFA15"
-        }
-      ]
+      "bookings": []
     },
     "V:N2": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 2,
-      "bookings": [
-        {
-          "start": "14:00",
-          "end": "19:00",
-          "label": "VBFA06 \nVBFA15"
-        }
-      ]
+      "bookings": []
     },
     "V:O1": {
       "type": "övningssal",
       "capacity": 24,
       "floor": 2,
-      "bookings": [
-        {
-          "start": "08:00",
-          "end": "13:00",
-          "label": "VVRN35"
-        }
-      ]
+      "bookings": []
     },
     "V:O2": {
       "type": "övningssal",
